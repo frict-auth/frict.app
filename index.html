@@ -22,6 +22,7 @@ h2 { margin-top: 2rem; }
 <ul>
 <li><strong>Sign-in keys.</strong> For each account, the app creates two keys in Android’s secure key storage. The private halves never leave the phone.</li>
 <li><strong>Account settings.</strong> For each account: the server’s address, your Frict user ID, and whether approving accepts only your fingerprint or another strong biometric (such as face unlock on some phones), or also your screen lock.</li>
+<li><strong>Account label.</strong> When you add an account, the server returns your username on that sign-in system. The app suggests a label made of that username and the server’s host name, which you can change. The label stays on the phone: the app never sends it to a server or to Google.</li>
 <li><strong>Camera.</strong> If you scan the enrollment QR code, the app reads camera frames in memory to find the code. It does not save or send images. You can paste the link instead.</li>
 <li><strong>Biometrics and screen lock.</strong> Android checks your fingerprint or another strong biometric (such as face unlock on some phones), or your screen lock. The app only learns whether the check passed.</li>
 </ul>
@@ -37,8 +38,7 @@ h2 { margin-top: 2rem; }
 <li>Your answers to sign-in requests: approve, deny, or “I didn’t start this”.</li>
 </ul>
 <p>Like any web server, each server also sees your phone’s IP address and the standard information your phone sends with every web request.</p>
-<p>When a wake-up message arrives and you have several accounts, the app asks your servers, in the order you added the accounts, for the sign-in request until one recognises it. A server that doesn’t recognise the request logs the attempt with your user ID on that server and your IP address, so its operator can tell that your phone was asked to approve a sign-in elsewhere.</p>
-<p>The server gets from your sign-in system what the app then shows you: your username, the IP address the sign-in came from, the site name, and sometimes the application.</p>
+<p>The server gets from your sign-in system your username, the IP address the sign-in came from, the site name, and sometimes the application. The app shows you all of these except the username, under the account’s label.</p>
 
 <h3>What the server keeps, by default</h3>
 <p>The operator can change these settings and decides on logs and backups.</p>
@@ -54,12 +54,12 @@ h2 { margin-top: 2rem; }
 <p><strong>Firebase Cloud Messaging</strong>, a Google service, wakes the app when a sign-in is waiting. For this:</p>
 <ul>
 <li>The app gets a Firebase installation ID from Google, at the latest when you add an account. Google also receives the app version and basic device information: Android version, device model, brand and form factor.</li>
-<li>Every wake-up message holds a random request number and nothing else. When one arrives, the app fetches the details from your server and shows a notification naming the account and server.</li>
+<li>Every wake-up message holds two random IDs and nothing else: the sign-in request’s, and your Frict user ID for the account it is for. It holds no names and no server addresses. When one arrives, the app asks only that account’s server for the details and shows a notification with the account’s label. A message for an account that isn’t on the phone is ignored.</li>
 </ul>
 <p>Google handles this data for us as a service provider, under the <a href="https://firebase.google.com/support/privacy">Firebase privacy and security terms</a>. Google deletes installation IDs after about 270 days without use.</p>
 
 <h2>Removing an account</h2>
-<p><strong>Remove this account</strong> in the app removes only that account; your other accounts stay. Its server first deletes your enrollment and your sign-in requests. Then the app deletes the account’s keys and settings on the phone.</p>
+<p><strong>Remove this account</strong> in the app removes only that account; your other accounts stay. Its server first deletes your enrollment and your sign-in requests. Then the app deletes the account’s keys, settings and label on the phone.</p>
 <p>If the server can’t be told, for example because it can’t be reached, you can still remove the account from the app. The server then keeps your enrollment until the operator deletes it.</p>
 <p>Removing an account doesn’t delete these, which the operator controls:</p>
 <ul>
