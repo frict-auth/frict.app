@@ -3,17 +3,88 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Frict</title>
+<title>Frict privacy policy</title>
 <style>
 body { max-width: 40rem; margin: 2rem auto; padding: 0 1rem; font: 1rem/1.5 system-ui, sans-serif; }
+h2 { margin-top: 2rem; }
 </style>
 </head>
 <body>
-<h1>Frict</h1>
-<p>Frict approves sign-ins from your phone.</p>
+<h1>Frict privacy policy</h1>
+<p>Effective 2026-11-26</p>
+<p>This privacy policy covers the Frict app for Android (<code>app.frict.android</code>), published by Geoffrey Freeman (“we”).</p>
+
+<h2>How Frict works</h2>
+<p>Frict approves sign-ins. The app on your phone holds one or more <strong>accounts</strong>, each paired with a <strong>Frict server</strong>. Each server is run by whoever manages your sign-in system, such as your employer, your school or someone in your household. We call them <strong>the operator</strong>. Frict’s server software is open source, and anyone can run it.</p>
+<p>The operator, not us, runs the server and controls what it stores. Your accounts can be on servers run by different operators. <strong>We don’t run any server that receives your data.</strong> Your questions about a server’s data go to its operator.</p>
+
+<h2>What stays on your phone</h2>
 <ul>
-<li><a href="privacy/">Privacy policy</a></li>
-<li><a href="https://github.com/frict-auth">Source code on GitHub</a></li>
+<li><strong>Sign-in keys.</strong> For each account, the app creates two keys in Android’s secure key storage. The private halves never leave the phone.</li>
+<li><strong>Account settings.</strong> For each account: the server’s address, your Frict user ID, and whether approving accepts only your fingerprint or another strong biometric (such as face unlock on some phones), or also your screen lock.</li>
+<li><strong>Camera.</strong> If you scan the enrollment QR code, the app reads camera frames in memory to find the code. It does not save or send images. You can paste the link instead.</li>
+<li><strong>Biometrics and screen lock.</strong> Android checks your fingerprint or another strong biometric (such as face unlock on some phones), or your screen lock. The app only learns whether the check passed.</li>
 </ul>
+<p>The app turns off Android backup and device-to-device transfer for its data. It has no ads, no analytics and no crash reporting.</p>
+
+<h2>What the app sends to Frict servers</h2>
+<p>Over HTTPS, to each account’s own server:</p>
+<ul>
+<li>Your Frict user ID and the one-time activation code from the enrollment link.</li>
+<li>The public halves of your two keys, with Android’s certificates for them (“key attestation”). These certificates describe the phone’s security: Android version, security patch level, whether the system software is verified, and which app made the keys. By default, the server uses them to check that the keys live in secure hardware and belong to the genuine Frict app.</li>
+<li>Your phone’s Firebase installation ID (see Google, below), so the server can wake the app. Every server you add an account on gets the same ID.</li>
+<li>The app’s version number, with every request, so the server can ask you to update an old version.</li>
+<li>Your answers to sign-in requests: approve, deny, or “I didn’t start this”.</li>
+</ul>
+<p>Like any web server, each server also sees your phone’s IP address and the standard information your phone sends with every web request.</p>
+<p>When a wake-up message arrives and you have several accounts, the app asks your servers, in the order you added the accounts, for the sign-in request until one recognises it. A server that doesn’t recognise the request logs the attempt with your user ID on that server and your IP address, so its operator can tell that your phone was asked to approve a sign-in elsewhere.</p>
+<p>The server gets from your sign-in system what the app then shows you: your username, the IP address the sign-in came from, the site name, and sometimes the application.</p>
+
+<h3>What the server keeps, by default</h3>
+<p>The operator can change these settings and decides on logs and backups.</p>
+<ul>
+<li><strong>Your enrollment</strong> (user ID, username, public keys, certificates, installation ID, app version) until you remove the account or the operator deletes it. If you never finish enrolling, the server deletes your username and user ID about 24 hours after the enrollment code expires.</li>
+<li><strong>Sign-in requests</strong> (username, IP address, site, your answer) for about 24 hours after each one expires. Then they are deleted automatically.</li>
+<li><strong>Service logs</strong> record events with your user ID, and your username when your enrollment is set up. When the server rejects a request, it also logs the IP address the request came from. The operator’s web server may log the IP address and request details of every request.</li>
+<li><strong>Backups and saved logs.</strong> If the operator deploys with the tool that comes with the server, each deploy backs up the server’s data and saves its service logs, and keeps those of the newest 5 deploys. Older ones are deleted.</li>
+</ul>
+
+<h2>Google</h2>
+<p><strong>Google Play</strong> installs and updates the app under <a href="https://policies.google.com/privacy">Google’s privacy policy</a>.</p>
+<p><strong>Firebase Cloud Messaging</strong>, a Google service, wakes the app when a sign-in is waiting. For this:</p>
+<ul>
+<li>The app gets a Firebase installation ID from Google, at the latest when you add an account. Google also receives the app version and basic device information: Android version, device model, brand and form factor.</li>
+<li>Every wake-up message holds a random request number and nothing else. When one arrives, the app fetches the details from your server and shows a notification naming the account and server.</li>
+</ul>
+<p>Google handles this data for us as a service provider, under the <a href="https://firebase.google.com/support/privacy">Firebase privacy and security terms</a>. Google deletes installation IDs after about 270 days without use.</p>
+
+<h2>Removing an account</h2>
+<p><strong>Remove this account</strong> in the app removes only that account; your other accounts stay. Its server first deletes your enrollment and your sign-in requests. Then the app deletes the account’s keys and settings on the phone.</p>
+<p>If the server can’t be told, for example because it can’t be reached, you can still remove the account from the app. The server then keeps your enrollment until the operator deletes it.</p>
+<p>Removing an account doesn’t delete these, which the operator controls:</p>
+<ul>
+<li>the operator’s logs and backups, which keep your data until they are deleted</li>
+<li>the records in your sign-in system</li>
+</ul>
+<p>When you remove your last account, the app asks Google to delete its Firebase installation ID. Google then removes it from its live and backup systems within 180 days. While you still have an account, the ID is kept.</p>
+
+<h2>Sharing</h2>
+<p>We don’t sell data or share it with anyone. The app sends data only to the Frict servers you added accounts on and to Google for push messages.</p>
+
+<h2>Security</h2>
+<ul>
+<li>All network traffic uses HTTPS.</li>
+<li>The app signs every request with a key kept in secure hardware.</li>
+<li>An approval needs your fingerprint or another strong biometric (such as face unlock on some phones), or your screen lock if you allowed it.</li>
+</ul>
+
+<h2>This website</h2>
+<p>This website is hosted on GitHub Pages, which logs visitors’ IP addresses under <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement">GitHub’s privacy statement</a>.</p>
+
+<h2>Changes</h2>
+<p>We post changes on this page with a new effective date.</p>
+
+<h2>Contact</h2>
+<p>Questions about this policy: <a href="mailto:contact@frict.app">contact@frict.app</a>. Questions about the data a Frict server holds go to its operator.</p>
 </body>
 </html>
