@@ -33,6 +33,7 @@ h2 { margin-top: 2rem; }
 <li>Your Frict user ID and the one-time activation code from the enrollment link.</li>
 <li>The public halves of your two keys, with Android’s certificates for them (“key attestation”). These certificates describe the phone’s security: Android version, security patch level, whether the system software is verified, and which app made the keys. By default, the server uses them to check that the keys live in secure hardware and belong to the genuine Frict app.</li>
 <li>Your phone’s Firebase installation ID (see Google, below), so the server can wake the app.</li>
+<li>The app’s version number, with every request, so the server can ask you to update an old version.</li>
 <li>Your answers to sign-in requests: approve, deny, or “I didn’t start this”.</li>
 </ul>
 <p>Like any web server, it also sees your phone’s IP address and the standard information your phone sends with every web request.</p>
@@ -41,9 +42,10 @@ h2 { margin-top: 2rem; }
 <h3>What the server keeps, by default</h3>
 <p>The operator can change these settings and decides on logs and backups.</p>
 <ul>
-<li><strong>Your enrollment</strong> (user ID, username, public keys, certificates, installation ID) until you remove the phone or the operator deletes it. If you never finish enrolling, the server keeps your username and user ID until the operator deletes them.</li>
+<li><strong>Your enrollment</strong> (user ID, username, public keys, certificates, installation ID, app version) until you remove the phone or the operator deletes it. If you never finish enrolling, the server deletes your username and user ID about 24 hours after the enrollment code expires.</li>
 <li><strong>Sign-in requests</strong> (username, IP address, site, your answer) for about 24 hours after each one expires. Then they are deleted automatically.</li>
 <li><strong>Service logs</strong> record events with your user ID, and your username when your enrollment is set up. When the server rejects a request, it also logs the IP address the request came from. The operator’s web server may log the IP address and request details of every request.</li>
+<li><strong>Backups and saved logs.</strong> If the operator deploys with the tool that comes with the server, each deploy backs up the server’s data and saves its service logs, and keeps those of the newest 5 deploys. Older ones are deleted.</li>
 </ul>
 
 <h2>Google</h2>
@@ -57,11 +59,10 @@ h2 { margin-top: 2rem; }
 
 <h2>Removing your phone</h2>
 <p><strong>Remove this phone</strong> in the app does two things. The server first deletes your enrollment and your sign-in requests. Then the app deletes its keys and settings on the phone.</p>
-<p>If the server can’t be reached, you can still remove the phone from the app. The server then keeps your enrollment until the operator deletes it.</p>
+<p>If the server can’t be told, for example because it can’t be reached, you can still remove the phone from the app. The server then keeps your enrollment until the operator deletes it.</p>
 <p>Removing the phone doesn’t delete these, which the operator controls:</p>
 <ul>
-<li>the operator’s logs</li>
-<li>the operator’s backups</li>
+<li>the operator’s logs and backups, which keep your data until they are deleted</li>
 <li>the records in your sign-in system</li>
 </ul>
 <p>The Firebase installation ID is also not deleted. A reinstalled app gets a new one.</p>
