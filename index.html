@@ -54,7 +54,7 @@ h2 { margin-top: 2rem; }
 <p><strong>Firebase Cloud Messaging</strong>, a Google service, wakes the app when a sign-in is waiting. For this:</p>
 <ul>
 <li>The app gets a Firebase installation ID from Google, at the latest when you add an account. Google also receives the app version and basic device information: Android version, device model, brand and form factor.</li>
-<li>Every wake-up message holds two random IDs and nothing else: the sign-in request’s, and your Frict user ID for the account it is for. It holds no names and no server addresses. Your Frict user ID is the same in every wake-up message for that account, so Google can tell they belong to the same account, as it already can from your phone’s Firebase installation ID. When one arrives, the app asks only that account’s server for the details and shows a notification with the account’s label. A message for an account that isn’t on the phone is ignored.</li>
+<li>Every wake-up message holds two random IDs and nothing else: the sign-in request’s, and your Frict user ID for the account it is for. It holds no names and no server addresses. Your Frict user ID is the same in every wake-up message for that account, so Google can tell they belong to the same account, as it already can from your phone’s Firebase installation ID. When one arrives, the app asks only that account’s server for the details and shows a notification. Open the app to see the details. A message for an account that isn’t on the phone is ignored.</li>
 </ul>
 <p>Google handles this data for us as a service provider, under the <a href="https://firebase.google.com/support/privacy">Firebase privacy and security terms</a>. Google deletes installation IDs after about 270 days without use.</p>
 
